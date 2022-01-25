@@ -1,0 +1,77 @@
+// 1: trainer 2: data owner 3: gym owner 4: admin, 5: customer
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /users/{userId} {
+    	allow get: if isAuthenticated();
+      allow list: if isAuthenticated() && isDataOwner(request.auth.uid);
+      allow create: if true;
+      allow update: if isAuthenticated() && isDataOwner(request.auth.uid);
+      allow delete: if false;
+    }
+    
+    match /memberships/{membershipId} {
+			allow read: if true;
+      allow write: if isAuthenticated() && isAdmin(request.auth.uid);
+    }
+    
+    match /gyms/{gymId} {
+    	allow get: if isAuthenticated();
+      allow list: if isAuthenticated();
+      allow create: if isAuthenticated() && isAdmin(request.auth.uid);
+      allow update: if isAuthenticated() && (isGymOwner(request.auth.uid) || isAdmin(request.auth.uid));
+      allow delete: if false;
+    }
+    match /classes/{classId} {
+    	allow get: if isAuthenticated();
+      allow list: if isAuthenticated();
+      allow create: if isAuthenticated() && isGymOwner(request.auth.uid);
+      allow update: if isAuthenticated() && (isGymOwner(request.auth.uid) || isAdmin(request.auth.uid));
+      allow delete: if false;
+    }
+    match /attendance/{attendanceId} {
+    	allow get: if isAuthenticated() && (isGymOwner(request.auth.uid) || isAdmin(request.auth.uid));
+      allow list: if isAuthenticated() && (isGymOwner(request.auth.uid) || isAdmin(request.auth.uid));
+      allow create: if isAuthenticated() && isGymOwner(request.auth.uid);
+      allow update: if isAuthenticated() && (isGymOwner(request.auth.uid) || isAdmin(request.auth.uid));
+      allow delete: if false;
+    }
+    function isAdmin(uid) {
+    	return isAuthenticated() &&
+               userExists(uid) &&
+               getUser(uid).type == 4
+    }
+    function isDataOwner(uid) {
+    	return isAuthenticated() &&
+               userExists(uid) &&
+               getUser(uid).type == 2
+    }
+    function isGymOwner(uid) {
+    	return isAuthenticated() &&
+               userExists(uid) &&
+               getUser(uid).type == 3
+    }
+    function isCustomer(uid) {
+    	return isAuthenticated() &&
+               userExists(uid) &&
+               getUser(uid).type == 5
+    }
+    function isTrainer(uid) {
+    	return isAuthenticated() &&
+               userExists(uid) &&
+               getUser(uid).type == 1
+    }
+    
+    function getUser(uid) {
+    	return get(/databases/$(database)/documents/users/$(uid)).data
+    }
+    
+    function userExists(uid) {
+    	return exists(/databases/$(database)/documents/users/$(uid))
+    }
+    
+    function isAuthenticated() {
+    	return request.auth.uid != null; // null reference error
+    }
+  }
+}

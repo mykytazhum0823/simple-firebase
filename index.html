@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Firebase CRUD</title>
+
+  <!-- BOOTSWATCH -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootswatch/4.5.0/pulse/bootstrap.min.css">
+
+  <!-- ANIMATE CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.0.0/animate.min.css" />
+
+</head>
+
+<body class="bg-light">
+
+  <!-- ADD TASK -->
+  <div class="container p-4">
+    <div class="row">
+      <div class="col-md-6">
+        <div class="card">
+          <div class="card-body">
+
+            <h1 class="h4">Register User</h1>
+
+            <form id="user-form">
+              <div class="form-group">
+                <input type="text" id="user-name" class="form-control" class="Task Title" placeholder="Username"
+                  autofocus>
+              </div>
+              <div class="form-group">
+                <input id="user-password" class="form-control" placeholder="Password">
+              </div>
+              <div class="form-group">
+                <input id="user-type" class="form-control" placeholder="type">
+              </div>
+              <div class="form-group">
+                <input id="user-membership" class="form-control" placeholder="membership">
+              </div>
+              <div class="form-group">
+                <input id="user-mobile" class="form-control" placeholder="mobile">
+              </div>
+
+              <button class="btn btn-primary" id="btn-user-form">
+                Save
+              </button>
+
+            </form>
+          </div>
+        </div>
+      </div>
+      <!-- Tasks List -->
+      <div class="col-md-6" id="tasks-container"></div>
+    </div>
+  </div>
+
+  <!-- FIREBASE -->
+  <!-- The core Firebase JS SDK is always required and must be listed first -->
+  <script src="https://www.gstatic.com/firebasejs/7.15.1/firebase-app.js"></script>
+
+  <script src="https://www.gstatic.com/firebasejs/7.15.1/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.15.1/firebase-functions.js"></script>
+
+  <!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries -->
+  <script src="https://www.gstatic.com/firebasejs/7.15.1/firebase-firestore.js"></script>
+
+  <script>
+    // Your web app's Firebase configuration
+    var firebaseConfig = {
+      // PUT YOUR CREDENTIALS HERE
+      apiKey: "AIzaSyDQ4WBaFAr6HqsjFOiAc_8jXxBUgLel-TM",
+      authDomain: "gym-api-9f285.firebaseapp.com",
+      projectId: "gym-api-9f285",
+      storageBucket: "gym-api-9f285.appspot.com",
+      messagingSenderId: "589128758014",
+      appId: "1:589128758014:web:5a83edd3d6f7ac70502baf",
+      measurementId: "G-57DT3SB65B"
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+
+    
+  </script>
+
+  <!-- CUSTOM CODE -->
+  <script src="index.js"></script>
+  <script src="js/user.js"></script>
+  <script src="js/membership.js"></script>
+  <script src="js/gym.js"></script>
+  <script src="js/class.js"></script>
+  <script src="js/attendance.js"></script>
+  <script src="js/test.js"></script>
+</body>
+
+</html>
